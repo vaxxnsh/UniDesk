@@ -3,7 +3,7 @@ import { Search, Bell, Settings, MessageCircle, ChevronDown, Layout, Users } fro
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center w-full justify-between px-4 py-3 bg-[#0f0f10] text-white shadow-md border-b-[#3b82f]">
+    <nav className="flex items-center w-full justify-between px-4 py-3 bg-white text-black shadow-md border-b border-gray-200">
       {/* Left section */}
       <div className="flex mx-2 items-center space-x-10">
         {/* Logo */}
@@ -13,12 +13,12 @@ const Navbar = () => {
         
         {/* Search bar */}
         <div className="relative">
-          <div className="flex items-center bg-[#191a1f] rounded-lg px-3 py-2">
-            <Search className="h-4 w-4 text-gray-400" />
+          <div className="flex items-center bg-gray-100 rounded-lg px-3 py-2 border border-gray-300">
+            <Search className="h-4 w-4 text-gray-500" />
             <input
               type="text"
               placeholder="Search..."
-              className="bg-transparent border-none focus:outline-none text-sm ml-2 w-64 text-gray-300 placeholder-[gray-500]"
+              className="bg-transparent border-none focus:outline-none text-sm ml-2 w-64 text-gray-700 placeholder-gray-500"
             />
           </div>
         </div>
@@ -26,17 +26,17 @@ const Navbar = () => {
 
       {/* Center section */}
       <div className="flex items-center space-x-6">
-        <button className="flex items-center space-x-1 text-gray-300 hover:text-blue-500 px-3 py-2">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-500 px-3 py-2">
           <span>Demo</span>
           <ChevronDown className="h-4 w-4" />
         </button>
         
-        <button className="flex items-center space-x-1 text-gray-300 hover:text-blue-500 px-3 py-2">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-500 px-3 py-2">
           <span>Pages</span>
           <ChevronDown className="h-4 w-4" />
         </button>
 
-        <button className="flex items-center space-x-1 text-gray-300 hover:text-blue-500 px-3 py-2">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-500 px-3 py-2">
           <span>Account</span>
           <ChevronDown className="h-4 w-4" />
         </button>
@@ -44,25 +44,25 @@ const Navbar = () => {
 
       {/* Right section */}
       <div className="flex items-center space-x-[40px] mx-2">
-        <button className="text-gray-300 hover:text-white">
+        <button className="text-gray-500 hover:text-black">
           <Users className="h-6 w-6" />
         </button>
         
-        <button className="text-gray-300 hover:text-white">
+        <button className="text-gray-500 hover:text-black">
           <MessageCircle className="h-6 w-6" />
         </button>
         
-        <button className="text-gray-300 hover:text-white">
+        <button className="text-gray-500 hover:text-black">
           <Settings className="h-6 w-6" />
         </button>
 
         <div className="relative">
-          <button className="text-gray-300 hover:text-white">
+          <button className="text-gray-500 hover:text-black">
             <Bell className="h-6 w-6 -mb-1" />
           </button>
         </div>
 
-        <div className="h-8 w-8 rounded-lg bg-gray-700 overflow-hidden">
+        <div className="h-8 w-8 rounded-lg bg-gray-200 overflow-hidden">
           <img
             src="/images/Avatar.jpeg"
             alt="Profile"
