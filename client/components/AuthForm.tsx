@@ -1,54 +1,70 @@
-import React from 'react';
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import React, { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import axios from 'axios';
 
-interface AuthFormProps {
-  onSubmit: (data: {
-    email: string;
-    password: string;
-    keepSignedIn: boolean;
-  }) => void;
+interface FormData {
+  name : string;
+  email: string;
+  password: string;
+  keepSignedIn: boolean;
 }
 
-const AuthForm = ({ onSubmit }: AuthFormProps) => {
-  const [isSignUp, setIsSignUp] = React.useState(true);
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [formData, setFormData] = React.useState({
+const AuthForm = () => {
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
     email: '',
+    name : '',
     password: '',
     confirmPassword: '',
-    keepSignedIn: false
+    keepSignedIn: false,
   });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const url = `http://localhost:3000/auth/${isSignUp ? 'register' : 'login'}`;
+      const response = await axios.post(url, data);
+      console.log('Response:', response.data);
+      alert(response.data.message)
+    } catch (error : any) {
+      console.error('Error:', error.response?.data || error.message);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isSignUp || (isSignUp && formData.password === formData.confirmPassword)) {
       onSubmit({
+        name : formData.name,
         email: formData.email,
         password: formData.password,
-        keepSignedIn: formData.keepSignedIn
+        keepSignedIn: formData.keepSignedIn,
       });
+    } else {
+      console.error('Passwords do not match');
     }
   };
 
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
     setFormData({
+      name : '',
       email: '',
       password: '',
       confirmPassword: '',
-      keepSignedIn: false
+      keepSignedIn: false,
     });
     setShowPassword(false);
     setShowConfirmPassword(false);
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-[#1a1a1a] border-0">
+    <Card className="w-full px-4 py-4 max-w-md mx-auto bg-[#1a1a1a] border-0">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-3xl font-bold text-white">
           {isSignUp ? 'Sign up' : 'Sign in'}
@@ -77,18 +93,27 @@ const AuthForm = ({ onSubmit }: AuthFormProps) => {
                 required
               />
             </div>
-            {isSignUp && (
-              <p className="text-xs text-gray-400">
-                We'll never share your email with anyone else.
-              </p>
-            )}
           </div>
-
+          {isSignUp && 
+            <div className="space-y-2">
+              <div className="relative flex items-center">
+                <User className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
+                <Input
+                  type="text"
+                  placeholder="Enter your Full Name"
+                  className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+              </div>
+            </div>  
+          }
           <div className="relative flex items-center">
             <Lock className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
             <Input
-              type={showPassword ? "text" : "password"}
-              placeholder={isSignUp ? "Enter new password" : "Enter password"}
+              type={showPassword ? 'text' : 'password'}
+              placeholder={isSignUp ? 'Enter new password' : 'Enter password'}
               className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -108,12 +133,11 @@ const AuthForm = ({ onSubmit }: AuthFormProps) => {
               )}
             </Button>
           </div>
-
           {isSignUp && (
             <div className="relative flex items-center">
               <Lock className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
               <Input
-                type={showConfirmPassword ? "text" : "password"}
+                type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Confirm password"
                 className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
                 value={formData.confirmPassword}
@@ -135,30 +159,25 @@ const AuthForm = ({ onSubmit }: AuthFormProps) => {
               </Button>
             </div>
           )}
-
           <div className="flex items-center space-x-2">
             <Checkbox
               id="keepSignedIn"
               checked={formData.keepSignedIn}
-              onCheckedChange={(checked) => 
+              onCheckedChange={(checked) =>
                 setFormData({ ...formData, keepSignedIn: checked as boolean })
               }
               className="border-gray-400 data-[state=checked]:bg-[#0066ff] data-[state=checked]:border-[#0066ff]"
             />
-            <label
-              htmlFor="keepSignedIn"
-              className="text-sm font-medium text-gray-400"
-            >
+            <label htmlFor="keepSignedIn" className="text-sm font-medium text-gray-400">
               Keep me signed in
             </label>
           </div>
-
-          <Button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full h-12 bg-[#0066ff] hover:bg-[#0052cc] text-white"
           >
             {isSignUp ? 'Sign me up' : 'Sign in'}
-          </Button>
+          </button>
         </form>
       </CardContent>
     </Card>
