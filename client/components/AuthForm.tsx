@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import axios from 'axios';
 
 interface FormData {
-  name : string;
+  name: string;
   email: string;
   password: string;
   keepSignedIn: boolean;
@@ -19,7 +19,7 @@ const AuthForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
-    name : '',
+    name: '',
     password: '',
     confirmPassword: '',
     keepSignedIn: false,
@@ -30,8 +30,8 @@ const AuthForm = () => {
       const url = `http://localhost:3000/auth/${isSignUp ? 'register' : 'login'}`;
       const response = await axios.post(url, data);
       console.log('Response:', response.data);
-      alert(response.data.message)
-    } catch (error : any) {
+      alert(response.data.message);
+    } catch (error: any) {
       console.error('Error:', error.response?.data || error.message);
     }
   };
@@ -40,7 +40,7 @@ const AuthForm = () => {
     e.preventDefault();
     if (!isSignUp || (isSignUp && formData.password === formData.confirmPassword)) {
       onSubmit({
-        name : formData.name,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
         keepSignedIn: formData.keepSignedIn,
@@ -53,7 +53,7 @@ const AuthForm = () => {
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
     setFormData({
-      name : '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -64,16 +64,16 @@ const AuthForm = () => {
   };
 
   return (
-    <Card className="w-full px-4 py-4 max-w-md mx-auto bg-[#1a1a1a] border-0">
+    <Card className="w-full px-4 py-4 max-w-md mx-auto bg-white border shadow-sm">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-3xl font-bold text-white">
+        <CardTitle className="text-3xl font-bold text-gray-800">
           {isSignUp ? 'Sign up' : 'Sign in'}
         </CardTitle>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-600">
           {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
           <button
             onClick={toggleAuthMode}
-            className="text-[#0066ff] hover:text-[#0052cc] focus:outline-none"
+            className="text-blue-600 hover:text-blue-800 focus:outline-none"
           >
             {isSignUp ? 'Sign in here' : 'Sign up here'}
           </button>
@@ -83,38 +83,38 @@ const AuthForm = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <div className="relative flex items-center">
-              <Mail className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
+              <Mail className="absolute left-3 w-5 h-5 text-gray-500 pointer-events-none" />
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
+                className="pl-10 h-12 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-1 focus:ring-blue-600"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
               />
             </div>
           </div>
-          {isSignUp && 
+          {isSignUp && (
             <div className="space-y-2">
               <div className="relative flex items-center">
-                <User className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
+                <User className="absolute left-3 w-5 h-5 text-gray-500 pointer-events-none" />
                 <Input
                   type="text"
                   placeholder="Enter your Full Name"
-                  className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
+                  className="pl-10 h-12 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-1 focus:ring-blue-600"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                 />
               </div>
-            </div>  
-          }
+            </div>
+          )}
           <div className="relative flex items-center">
-            <Lock className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
+            <Lock className="absolute left-3 w-5 h-5 text-gray-500 pointer-events-none" />
             <Input
               type={showPassword ? 'text' : 'password'}
               placeholder={isSignUp ? 'Enter new password' : 'Enter password'}
-              className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
+              className="pl-10 h-12 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-1 focus:ring-blue-600"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
@@ -127,19 +127,19 @@ const AuthForm = () => {
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
-                <EyeOff className="h-5 w-5 text-gray-400" />
+                <EyeOff className="h-5 w-5 text-gray-500" />
               ) : (
-                <Eye className="h-5 w-5 text-gray-400" />
+                <Eye className="h-5 w-5 text-gray-500" />
               )}
             </Button>
           </div>
           {isSignUp && (
             <div className="relative flex items-center">
-              <Lock className="absolute left-3 w-5 h-5 text-gray-400 pointer-events-none" />
+              <Lock className="absolute left-3 w-5 h-5 text-gray-500 pointer-events-none" />
               <Input
                 type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Confirm password"
-                className="pl-10 h-12 bg-[#2a2a2a] border-0 text-white placeholder:text-gray-400 focus:ring-1 focus:ring-[#0066ff]"
+                className="pl-10 h-12 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 focus:ring-1 focus:ring-blue-600"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 required
@@ -152,9 +152,9 @@ const AuthForm = () => {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-400" />
+                  <EyeOff className="h-5 w-5 text-gray-500" />
                 ) : (
-                  <Eye className="h-5 w-5 text-gray-400" />
+                  <Eye className="h-5 w-5 text-gray-500" />
                 )}
               </Button>
             </div>
@@ -166,15 +166,15 @@ const AuthForm = () => {
               onCheckedChange={(checked) =>
                 setFormData({ ...formData, keepSignedIn: checked as boolean })
               }
-              className="border-gray-400 data-[state=checked]:bg-[#0066ff] data-[state=checked]:border-[#0066ff]"
+              className="border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
             />
-            <label htmlFor="keepSignedIn" className="text-sm font-medium text-gray-400">
+            <label htmlFor="keepSignedIn" className="text-sm font-medium text-gray-600">
               Keep me signed in
             </label>
           </div>
           <button
             type="submit"
-            className="w-full h-12 bg-[#0066ff] hover:bg-[#0052cc] text-white"
+            className="w-full h-12 bg-blue-600 hover:bg-blue-800 text-white"
           >
             {isSignUp ? 'Sign me up' : 'Sign in'}
           </button>
