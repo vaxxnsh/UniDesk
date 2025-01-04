@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { json } from 'stream/consumers';
 
 interface FormData {
   name: string;
@@ -24,15 +26,22 @@ const AuthForm = () => {
     confirmPassword: '',
     keepSignedIn: false,
   });
+  const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
+    
     try {
       const url = `http://localhost:3000/auth/${isSignUp ? 'register' : 'login'}`;
       const response = await axios.post(url, data);
       console.log('Response:', response.data);
       alert(response.data.message);
+      if(response.data.user) {
+          console.log("Redirecting");
+          router.replace('/');
+      }
     } catch (error: any) {
-      console.error('Error:', error.response?.data || error.message);
+      console.error('Error:',error.response?.data || error.message);
+      alert('Error:'+ error.response?.data || error.message)
     }
   };
 
